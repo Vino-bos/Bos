@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Group Creator Bot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WhatsApp Group Creator Bot</h1>
+            <div class="status-container">
+                <span>Status:</span>
+                <div id="status-indicator" class="status-indicator">
+                    <span id="status-text">Memeriksa...</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="system-notice" id="compatibility-notice">
+                <div class="alert alert-warning">
+                    <h2>⚠️ Menghubungkan ke WhatsApp</h2>
+                    <p>Bot sedang mencoba terhubung ke WhatsApp. Harap tunggu hingga kode QR muncul di bawah.</p>
+                    <p>Jika kode QR tidak muncul dalam 1 menit, coba mulai ulang server.</p>
+                </div>
+            </section>
+            
+            <section class="qr-section">
+                <h2>Menautkan Akun WhatsApp</h2>
+                <p>Untuk menggunakan bot ini, Anda perlu menautkan akun WhatsApp Anda dengan memindai kode QR:</p>
+                
+                <div class="qr-process">
+                    <div class="qr-step">
+                        <h3>1. Buka WhatsApp di ponsel Anda</h3>
+                        <p>Pastikan Anda menggunakan aplikasi WhatsApp resmi.</p>
+                    </div>
+                    
+                    <div class="qr-step">
+                        <h3>2. Akses Menu Perangkat Tertaut</h3>
+                        <p>Buka menu dengan menekan titik tiga di pojok kanan atas, lalu pilih <strong>Perangkat tertaut</strong>.</p>
+                    </div>
+                    
+                    <div class="qr-step">
+                        <h3>3. Pindai Kode QR</h3>
+                        <p>Tekan <strong>Tautkan Perangkat</strong> dan arahkan kamera pada kode QR di bawah ini.</p>
+                    </div>
+                </div>
+                
+                <div class="qr-container">
+                    <div id="qr-placeholder">
+                        <p>Kode QR akan muncul di sini ketika bot aktif.</p>
+                        <img src="https://via.placeholder.com/300x300?text=QR+Code+Placeholder" alt="QR Code Placeholder" class="qr-placeholder-img">
+                    </div>
+                </div>
+                
+                <div class="connection-notes">
+                    <p><strong>Catatan Penting:</strong></p>
+                    <ul>
+                        <li>Pastikan koneksi internet ponsel dan komputer stabil.</li>
+                        <li>Jangan screenshot kode QR (ini dapat membahayakan keamanan akun Anda).</li>
+                        <li>Setelah tertaut, WhatsApp akan tetap terhubung meskipun ponsel Anda tidak aktif.</li>
+                        <li>Anda dapat memutuskan perangkat kapan saja melalui menu Perangkat Tertaut di aplikasi WhatsApp.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="instructions">
+                <h2>Cara Menggunakan Bot</h2>
+                <p>Setelah menautkan akun WhatsApp, bot akan merespon perintah berikut:</p>
+                
+                <div class="command-list">
+                    <div class="command">
+                        <h3>Membuat Grup Tunggal</h3>
+                        <pre>!creategroup &lt;NamaGrup&gt; &lt;Peserta1,Peserta2,...&gt;</pre>
+                        <p>Contoh: <code>!creategroup TimAlpha 628123456789,628987654321</code></p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Membuat Banyak Grup Sekaligus</h3>
+                        <pre>!createmultiplegroups &lt;AwalaGrup&gt; &lt;Jumlah&gt; &lt;Peserta1,Peserta2,...&gt;</pre>
+                        <p>Contoh: <code>!createmultiplegroups Tim 5 628123456789,628987654321</code></p>
+                        <p>Perintah ini akan membuat 5 grup bernama: Tim 1, Tim 2, Tim 3, Tim 4, Tim 5</p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Kirim Pesan ke Satu Nomor</h3>
+                        <pre>!sendmessage &lt;Penerima&gt; &lt;Pesan&gt;</pre>
+                        <p>Contoh: <code>!sendmessage 628123456789 Halo, ini pesan dari bot!</code></p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Kirim Pesan Massal ke Banyak Nomor (dengan Sistem Anti-Ban)</h3>
+                        <pre>!bulkmessage &lt;JedaDetik&gt; &lt;Penerima1,Penerima2,...&gt; &lt;Pesan&gt;</pre>
+                        <p>Contoh: <code>!bulkmessage 5 628123456789,628987654321 Halo, ini pesan massal!</code></p>
+                        <p>Perintah ini akan mengirim pesan ke semua nomor dengan fitur anti-ban berikut:</p>
+                        <ul class="feature-list">
+                            <li><strong>Batch Processing:</strong> Pesan dikirim dalam batch (20 kontak per batch)</li>
+                            <li><strong>Cooldown Period:</strong> Jeda 5 menit antar batch untuk menghindari deteksi spam</li>
+                            <li><strong>Variasi Pesan:</strong> Setiap pesan dibuat sedikit berbeda untuk mencegah deteksi duplikat</li> 
+                            <li><strong>Jeda Acak:</strong> Waktu pengiriman bervariasi untuk menghindari pola terdeteksi otomatis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Dapatkan Link Semua Grup</h3>
+                        <pre>!getgrouplinks</pre>
+                        <p>Perintah ini akan mengambil dan menampilkan link undangan untuk semua grup WhatsApp yang Anda miliki</p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Dapatkan Link Grup Tertentu</h3>
+                        <pre>!getgrouplink &lt;NamaGrup&gt;</pre>
+                        <p>Contoh: <code>!getgrouplink Tim Alpha</code></p>
+                        <p>Perintah ini akan mencari grup dengan nama yang ditentukan dan menampilkan link undangannya</p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Salin Semua Grup Untuk Dibagikan</h3>
+                        <pre>!copyallgroups</pre>
+                        <p>Perintah ini akan mengumpulkan semua grup dan linknya dalam format siap salin untuk dibagikan</p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Ekspor Data Grup</h3>
+                        <pre>!exportgroups</pre>
+                        <p>Perintah ini akan mengekspor data grup dalam format teks, JSON, dan CSV</p>
+                    </div>
+                    
+                    <div class="command">
+                        <h3>Bantuan</h3>
+                        <pre>!help</pre>
+                        <p>Menampilkan informasi tentang perintah yang tersedia</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="notes">
+                <h2>Catatan Penting</h2>
+                <ul>
+                    <li>Nomor telepon harus dalam format internasional tanpa '+' (contoh: 628123456789)</li>
+                    <li>Membuat banyak grup dalam waktu singkat dapat menyebabkan akun WhatsApp Anda dibatasi</li>
+                    <li>Bot secara otomatis menambahkan jeda antara pembuatan grup untuk meminimalkan risiko pemblokiran</li>
+                    <li>WhatsApp memungkinkan maksimal 256 peserta per grup</li>
+                    <li>Pengiriman pesan massal dengan jeda terlalu cepat mungkin akan dibatasi oleh WhatsApp</li>
+                    <li>Disarankan menggunakan jeda minimal 3 detik untuk pengiriman pesan massal</li>
+                    <li>Anda dapat mengatur jeda antara pengiriman pesan (dalam detik) untuk mengontrol kecepatan pengiriman</li>
+                    <li>Link grup yang dihasilkan hanya berlaku jika Anda adalah admin grup tersebut</li>
+                    <li>Perintah <code>!getgrouplinks</code> bisa membutuhkan waktu beberapa saat jika Anda memiliki banyak grup</li>
+                    <li>Link grup berlaku hingga admin mengatur ulang atau menonaktifkannya</li>
+                    <li>Perintah <code>!copyallgroups</code> akan membuat daftar grup dalam format yang siap untuk disalin dan dibagikan ke orang lain</li>
+                    <li>Perintah <code>!exportgroups</code> berguna untuk membuat cadangan data grup Anda dalam berbagai format</li>
+                    <li>Fitur salin grup membutuhkan izin admin untuk mendapatkan link undangan</li>
+                </ul>
+            </section>
+
+            <section class="anti-ban-info">
+                <h2>Sistem Anti-Ban untuk Pesan Massal</h2>
+                <p>Fitur ini dirancang untuk mengurangi risiko akun Anda dibatasi atau diblokir saat mengirim pesan massal ke banyak nomor:</p>
+                
+                <div class="anti-ban-features">
+                    <div class="feature">
+                        <h3>1. Pengiriman Batch</h3>
+                        <p>Pesan akan dikirim dalam kelompok-kelompok berukuran 20 kontak. Setiap batch diproses terpisah dengan jeda waktu untuk menghindari deteksi pengiriman massal.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>2. Jeda Antar Batch</h3>
+                        <p>Setelah menyelesaikan satu batch, bot akan menunggu 5 menit sebelum memulai batch berikutnya. Periode cooldown ini mengurangi risiko deteksi sebagai spam atau bot.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>3. Variasi Pesan Otomatis</h3>
+                        <p>Setiap pesan yang dikirim akan memiliki variasi kecil yang tidak terlihat (seperti karakter tidak terlihat atau penggantian huruf serupa) untuk mencegah deteksi sebagai pesan duplikat.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>4. Jeda Waktu Acak</h3>
+                        <p>Jeda antara pesan tidak akan tepat sama. Sistem akan menambahkan keacakan 1-6 detik pada jeda yang ditentukan untuk meniru pola pengiriman manusia alami.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>5. Pantauan & Notifikasi Progres</h3>
+                        <p>Saat pengiriman berlangsung, bot akan menampilkan pembaruan status tentang progres pengiriman, termasuk batch saat ini, pesan berhasil/gagal, dan waktu jeda.</p>
+                    </div>
+                </div>
+                
+                <div class="anti-ban-warning">
+                    <p><strong>Peringatan:</strong> Meskipun fitur ini mengurangi risiko, penggunaan berlebihan dalam waktu singkat tetap dapat memicu pemblokiran oleh WhatsApp. Gunakan dengan bijak dan hindari pengiriman ke kontak yang tidak Anda kenal.</p>
+                </div>
+            </section>
+
+            <section class="command-interface">
+                <h2>Kirim Perintah Langsung</h2>
+                <p>Anda dapat mengirim perintah langsung dari antarmuka web ini:</p>
+                
+                <div class="command-form">
+                    <form id="command-form">
+                        <div class="form-group">
+                            <label for="command-input">Perintah:</label>
+                            <input type="text" id="command-input" name="command" placeholder="Masukkan perintah (contoh: !bulkmessage 5 628xxxxxxxxxx,628xxxxxxxxxx Halo ini pesan massal)" required>
+                        </div>
+                        <button type="submit" id="send-command-btn">Kirim Perintah</button>
+                    </form>
+                </div>
+                
+                <div class="command-response" id="command-response">
+                </div>
+            </section>
+            
+            <section class="log-viewer">
+                <h2>Log Bot Terbaru</h2>
+                <div class="log-container">
+                    <pre id="log-content">Memuat log...</pre>
+                </div>
+                <button id="refresh-logs-btn">Segarkan Log</button>
+            </section>
+            
+            <section class="system-info">
+                <h2>Informasi Sistem</h2>
+                <div id="system-info-container">
+                    <p>Memuat informasi sistem...</p>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>WhatsApp Group Creator Bot | Pemeriksaan terakhir: <span id="last-check">Belum pernah</span></p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
